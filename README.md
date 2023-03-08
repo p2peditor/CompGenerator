@@ -1,4 +1,4 @@
-# CompGenerator Documentation
+# CompGenerator
 
 CompGenerator is a python script that generates competitor badges and scorecards for use in speedcubing competitions. It is for comp organizers who are comfortable working with text files and a unix-style command line environment.
 
@@ -51,7 +51,7 @@ CompGenerator takes just one input file when invoked--a config file that provide
 
 The `samples` directory has examples of all of these files.
 
-## 2.1 Config File Format
+## 2.1 Config File
 
 The config file tells CompGenerator everything it needs to know about your competition and where to find information about your competitors. This file is a .JSON file, consisting of a dictionary with _key:value_ pairs that provide all of CompGenerator's settings. The settings are loosely grouped into:
 * Information about your competition as a whole
@@ -65,10 +65,12 @@ See the `samples` directory for a config file example.
 
 Competition information is given by three key:value pairs, called `"competition"`, `"stages"`, and `"events"`.
 
+#### Competition Name
 The `"competition"` key gives the name of your competition:
 
   `"competition": "Fargo Flyin' Fingers 2023"`
 
+#### Stages at Your Venue
 If the solving stations at your venue are separated into different stages, different rooms, or different areas for whatever reason, the `"stages"` key allows you to specify a dictionary that names each stage, gives a shorthand form for it, and how many solving stations the stage has. For example:
 
   `"stages": {"Red":["R", 6], "Blue":["B", 6]}`
@@ -79,6 +81,7 @@ You can direct CompGenerator to put events on specific stages if you like; see t
 
 If your competition is not using multiple stages, you can omit the `"stages"` key entirely, or specify it as an empty dictionay (`{}`).
 
+#### Events at Your Competition
 The `"events"` key specifies which events your competition is holding. The value of this key is a dictionary that gives a list of configuration values for each event, keyed to the event's official WCA designation. The order of values in each list is:
 
 * The number of solves competitors will perform.
@@ -101,6 +104,7 @@ In this example, the competition is holding the odd-layer cube events. The 3x3 c
 
 The cutoff and time limit values are used to control the layout of scorecards, and will be printed on the scorecards as well for reference during the competition.
 
+#### Custom Events and Non-English Event Names
 The `"custom_events"` key gives CompGenerator the designator, name, and short-name of any non-standard or exhibition events you are holding. The designator is any string you like, but MUST match the column header in your competitor assignments file for the event. The name is the fully written out name of the event. The short-name is an abbreviation that will be used on competitor badges for each person's schedule.
 
 Its format is a list of lists-of-strings. For example, if your comp is holding three exhibition events--Face-Turning Octahedron, Team Blind, and Mirror Blocks, you could specify:
@@ -121,22 +125,27 @@ You may also use the `"custom_events"` mechanism to override CompGenerator's bui
   ]
 ```
 
-Note that the designators of events in your `"events"` key, the column headers in your competitor assignments file (see below), and the designators in your `"custom_events"` (if any), must agree.
+Note that the designators of events in your `"events"` key, the column headers in your competitor assignments file (see below), and the designators in your `"custom_events"` (if any), must all match.
 
 ### 2.1.2 Competitor Information
 
 Competitor information is given by two keys, `"roles"` and `"assignments"`. 
 
+#### Competitor Roles
 The `"roles"` key gives a string that indicates what roles people at your competition may be assigned. It uses the C/J/R/S standard used by other group and scorecard generators. The default value is:
 
   `"roles": "CJRS"`
 
 which indicates that participants at your comp may be assigned the Competitor (C), Judge (J), Runner (R), and Scrambler (S) roles. Omit any letters from the `"roles"` string that you are not using. E.g. if you are not using assigned runners but will be relying on volunteers, you can reduce this to `"CJS"`.
 
-The `"assignments"` key names a comma-separated-values file that tells CompGenerator what you want everyone to be doing during round 1 of each event.
+#### Competitor Assignments File
+The `"assignments"` key names a comma-separated-values file that tells CompGenerator what you want everyone to be doing during round 1 of each event. For example:
+
+  `"assignments": "fargo_flyin_fingers_2023_competitors.csv"`
 
 See section 2.2, below, for full details on the contents and format of this file.
 
+#### Marking Top-Ranked Competitors
 The "stars" key gives a dictionary that maps competitor names or WCA IDs to which events they might could set a record in (i.e. events in which they are "stars"). Scorecards for these people will be marked with a gold star in the scrambler signature area, as a reminder to scramblers to make extra-sure that the scrambles are correct. For example:
 
 ```
@@ -150,13 +159,13 @@ The "stars" key gives a dictionary that maps competitor names or WCA IDs to whic
 
 This would cause those competitors to have stars on their round-1 scorecards for the indicated events. You can omit this key or leave it empty if there are no high-level competitors at your competition, or do not wish to use this feature.
 
-This feature is useful if you have high-level competitors at your competition who might potentially set records, and want to avoid drama or controversy over misscrambles (see https://www.youtube.com/watch?v=NFMUs_lUHpM for a summary of recent related incidents). Scramblers should never misscramble or let an incorrect scramble go out to a competitor, and marking the high-level scorecards in an obvious way helps remind scrambles to do their jobs right.
+This feature is useful if you have high-level competitors at your competition who might potentially set records, and want to avoid drama or controversy over misscrambles (see https://www.youtube.com/watch?v=NFMUs_lUHpM for a summary of recent related incidents) that could invalidate a record. Scramblers should never misscramble or let an incorrect scramble go out to a competitor, but people get sloppy or carless. Marking the high-level scorecards in an obvious way helps remind scrambles to do their jobs right for the cases where it matters most.
 
 ### 2.1.3 Drawing Options for Badges
 
 CompGenerator supports several options for configuring how it renders badges and scorecards.
 
-
+#### Competitor Namebadge Information
 The `badge_config` key is a dictionary that holds all badge configuration information. It should contain four sub-keys that give specifics:
 
 ```
@@ -180,7 +189,7 @@ The `"cut_guides"` key indicates whether CompGenerator should add thin lines to 
 
   `"cut_guides": false`
 
-### 2.1.5 Round 2 and Later Scorecards
+### 2.1.5 Blank Scorecards for Round 2 and Later
 
 The following settings tell CompGenerator what scorecards you want it to generate for any rounds after round 1. These are different because the names of the competitors are not known in advance--you don't know who will qualify for round 2 or finals.
 
@@ -227,13 +236,13 @@ See also the example `sample_comp_assignments.csv` file in the `samples/` direct
 
 By default, CompGenerator will assign a competitor number to each person, based on their order in your assignments file. These numbers are included on scorecards for each competitor as well as on the back side of their badge.
 
-However, if your assignments file has a column with the string `Number` in the header row, CompGenerator will use the values in that column instead. Note that CompGenerator performs no checking of the values in this column to guarantee uniqueness or anything else.
+However, if your assignments file has a column with the label `Number` in the header row, CompGenerator will use the values in that column instead. Note that CompGenerator performs no checking of the values in this column to guarantee uniqueness or anything else.
 
 # 3. Staging
 
 Staging refers to the practice of dividing the solving stations at a competition into groups called "stages". This is at the organizer's discretion. Typically, stages are given colors such as "red" or "blue", and the physical solving stations have colored tablecloths to match. For competitions in larger physical spaces, dividing the solving stations into stages can greatly improve the logistics of running each round.
 
-CompGenerator does not force you to use stages. If your config file has a `stages` key containing the names, "tags", and number of solving stations of each stage, then it will use that information to distribute competitors in each competing group to the stages in a number of different ways.
+CompGenerator does not force you to use stages. If your config file has a `stages` key (as described above), then it will use that information to distribute competitors in each competing group to the stages in one of three different methods: Round-Robin, Assigned, or Single Staging.
 
 ## 3.1 Round-Robin Staging
 
@@ -245,7 +254,7 @@ CompGenerator will use this method in most situations, because typically the num
 
 ## 3.2 Assigned Staging
 
-If you want a particular event to take place on a single, specific stage, you can specify the stage for that event in your config file. See the documentation above for the `events` key of the config file. All competitors, regardless of what competing group they are in or how many people are competing, will be assigned to the stage you specify in the config file.
+Assigned staging does not put specific competitors on specific stages, but puts events on the stages you dictate. If you want a particular event to take place on a single, specific stage, you can specify the stage for that event in your config file. See the documentation above for the `events` key of the config file. All competitors, regardless of what competing group they are in or how many people are competing, will be assigned to the stage you specify in the config file. Events that are not assigned to a specific stage will be assigned using Round Robin or Single Staging, as appropriate.
 
 ## 3.3 Single Staging
 
@@ -268,7 +277,7 @@ After editing your config file and exporting your competitor assignment file fro
 
 Note that this invocation relies on CompGenerator being in your `PATH`, as described above. If you've chosen to install it differently, you can figure out how to invoke it.
 
-The output PDF files will be created in the same directory.
+The output PDF files will be created in the directory where you invoke CompGenerator.
 
 It is recommended that you review your output files with any Adobe Acrobat Reader or another PDF reader to check for mistakes before printing.
 
@@ -283,14 +292,13 @@ For example, you could specify `-g 'badges blanks'` to re-generate the badges an
 
 # 5. General Suggestions
 
-## 5.1 Assignments
-Part of a comp organizer's job is to create a good competition experience for competitors. Carelessly assigning roles can make for a poor experience. It will not always be possible to assign roles such that everyone has a great experience, but in general, try to avoid assigning someone a helping role for the group immediately before their competing group.
+## 5.1 Roles Assignments
+Part of a comp organizer's job is to create a good competition experience for competitors. Carelessly assigning roles can make for a poor experience. It will not always be possible to assign roles such that everyone has a great experience, but here are some good practices to follow:
 
-For example, if you assign someone "C2;R1", you're saying they should be a runner in group 1 of some event, but then immediately compete in group 2. This gives the competitor no time to warm up for the event, and asks them to compete when they may still be hot and sweaty or out of breath from running.
-
-Likewise, over-assigning the same person to many jobs in many events means that they will have less time to socialize with their cubing friends.
-
-Where feasible, try to spread the work evenly and give people time to practice and socialize.
+* Avoid assigning someone a helping role for the group immediately before their competing group. If you do, then you won't give that person any time to warm up for their group, and asks them to compete when they might still be hot and sweaty or out of breath from running.
+* Avoid over-assigning the same person to many jobs in many events. If you do, then they will have less time to socialize with their cubing friends, which will make the competition less enjoyable for them overall.
+* Assign some helping roles to each competitor. Competitors need to understand that helping the competition run smoothly is part of their job as a participant in the comp.
+* Avoid assigning first-time competitors to any helper roles besides judging. New people should go to at least a few competitions to get the feel for how a round should be run before being asked to serve as a runner or scrambler.
 
 # 5.2 Selecting Scramblers and Runners
 
