@@ -1,0 +1,31 @@
+{
+    "certificate_template": "my_certificates.png",
+    "comp_name_conf": [90,37.5,16],
+    "competitor_name_conf": [90, 17.25, 14],
+    "place_conf": [90, 17.25, 14],
+    "event_name_conf": [90, 37.5, 16],
+    "result_conf": [90, 17.25, 14],
+    "winners": {
+        "333": {
+            "First": ["Ada Ke", "15.37"],
+            "Second": ["Adam Dabling", "15.98"],
+            "Third": ["Ava Donovan", "16.22"]
+        },
+        "555": {
+            "First": ["Ada Ke", "15.37"],
+            "Second": ["Adam Dabling", "15.98"],
+            "Third": ["Ava Donovan", "16.22"]
+        },
+
+        "777": {
+            "First": ["Ada Ke", "15.37"],
+            "Second": ["Adam Dabling", "15.98"],
+            "Third": ["Ava Donovan", "16.22"]
+        },
+        "FTO": {
+            "First": ["Ada Ke", "15.37"],
+            "Second": ["Adam Dabling", "15.98"],
+            "Third": ["Ava Donovan", "16.22"]
+        }
+    }
+}

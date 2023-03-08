@@ -1,0 +1,33 @@
+{
+  "competition": "My Sample Competition",
+  "stages": {"Red":["R",6], "Blue":["B",6]},
+  "events": {
+    "333": [5,null,"","10:00"],
+    "555": [5,2,"2:10","4:30"],
+    "777": [3,1,"4:45","9:30"],
+    "FTO": [5,2,"2:00","5:00","Red"]
+  },
+  "custom_events": [ ["FTO", "Face-Turning Octahedron", "FTO"] ],
+  "roles": "CJRS",
+  "assignments": "sample_comp_assignments.csv",
+  "stars": {
+    "2022KEAL01":["333"],
+    "2022KEAD01":["555"],
+    "Ash Black":["333","777"],
+    "Braden Dillenberg":["FTO"]
+  },
+  "badge_config": {
+    "template_image": "sample_comp_badge_template.jpg",
+    "name_conf":   [90, 42.5, 16,  "These values give position and size information for the competitor name and WCA ID."],
+    "id_conf":     [90, 22.25, 14, "They are in the order center_x, baseline_y, font_size, all measured in points"],
+    "helper_conf": [90, 5.25, 14, "They are in the order center_x, baseline_y, font_size, all measured in points"]
+  },
+  "cut_guides": false,
+  "scorecard_blanks": {
+      "blank": {"__": 20},
+      "333": {"2": 48, "Final": 16},
+      "555": {"Final": 12},
+      "777": {"Final": 12},
+      "FTO": {"Final": 8}
+  }
+}
