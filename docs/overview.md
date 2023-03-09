@@ -17,7 +17,7 @@ CompGenerator can also support custom, unofficial, and "exhibition" events with 
 
 # 2. CompGenerator Features
 
-# 2.1 Scorecards
+## 2.1 Scorecards
 
 CompGenerator will automatically use the information you provide about your events and custom events--what format the event is using, cutoff and limit times, and any stage information--to configure the scorecards appropriately.
 
@@ -30,7 +30,19 @@ Round 1 scorecards will include:
 * E1 and E2 lines for extra attempts
 * "Star" markers for high profile competitors (see below)
 
-# 2.2 Competitor Badges
+### 2.1.1 Scorecards for Top-Ranked Competitors
+
+CompGenerator can mark the scorecards for individual competitors with gold stars to indicate competitors who have the potential to set or break records. This is not about status or trying to differentiate "elite" competitors from everybody else, but is to address issues with misscrambles.
+
+The WCA currently requires that record-setting solves and averages be checked to ensure that the attempts were not done on misscrambled puzzles. Several recent high-profile instances of misscrambles have led to competitors having record-setting times denied a record. This has, understandably, [created controversy and drama](https://www.youtube.com/watch?v=NFMUs_lUHpM) which comp organizers generally strive to avoid. 
+ 
+To remind scramblers of the importance of a) not mis-scrambling, and b) double-checking scrambles for the cases where it matters most, you can have CompGenerator mark scorecards for your "star" competitors by putting literal gold stars in the scrambler signature spot on the scorecard. 
+
+To do this, list your star competitors in your [config file](config_file_reference.md), and educate your scramblers that when they see yellow stars on the card, they must absolutely guarantee that the scramble is correct before signing on the star and sending the puzzle back out. The [samples/](../samples/) directory contains a "star_alert.pdf" file you can print out and post at your scrambling stations.
+
+Scramblers should never misscramble or let an incorrect scramble go out to a competitor. But, people get sloppy or careless or rushed in the heat of a busy round. The stars are there to serve as an immediate, in-the-moment reminder to pay extra attention for the cases where it matters the most.
+
+## 2.2 Competitor Badges
 
 CompGenerator produces two-sided badges, where the front side shows whatever artwork or other badge design you provide, and the back side shows the competitor's schedule.
 
