@@ -58,6 +58,18 @@ def load_config(config_file):
             eventNames[_e[0]] = tuple(_e[1:])
     return cfg
 
+# helper for load_data() that sanity-checks an assignment string to make sure that
+# the assignment doesn't have multiple roles for the same group (e.g. C1;R1)
+def validate_assignment(who, event, assn):
+    used = []
+    for chunk in assn.split(";"):
+        group = chunk[-1] # last character should be the group number
+        if group in used:
+            print(f"Warning: {who} has simultaneous assignments for {eventNames[event]}: {assn}")
+        else:
+            used.append(group)
+    return
+
 # to-do: as a robustness feature, we should check all the keys for each person in assignments,
 # and for the keys that are events, uppercase the value. That way people don't have to capitalize
 # the CJRS roles in their spreadsheet, which would be good, because other parts of the code
@@ -76,7 +88,8 @@ def load_data(config):
         who = raw_data[i][0] # the person's name
         _ = {"Number": str(i)} # temporary dict for the person's data. "Number" is their competitor number
         for j in range(1,len(header)): # here we need to associate the columns with event information from the header row, not the events list from the config file, because the order could be different.
-            _[header[j]] = raw_data[i][j]
+            _[header[j]] = raw_data[i][j] # store the assignment
+            validate_assignment(who, header[j], _[header[j]]) # print a warning if the assignment is not good. We'll still use it, but warn the user.
         assignments[who] = _
     return assignments
 
