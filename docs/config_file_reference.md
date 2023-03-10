@@ -91,12 +91,12 @@ All information about each competitor's competition schedule and helping roles i
 See the [Assignments File Reference](assignments_file_reference.md) for full documentation on how to work with your competitor assignments file.
 
 ### 2.2 Marking Top-Ranked Competitors
-The "stars" key gives a dictionary that maps competitor names or WCA IDs to which events they might could set a record in (i.e. events in which they are "stars"). Scorecards for these people will be marked with a gold star in the scrambler signature area, as a reminder to scramblers to make extra-sure that the scrambles are correct. It doesn't matter whether you list your star competitors by their name or their ID. For example:
+The "stars" key gives a dictionary that maps competitor names to which events they might could set a record in (i.e. events in which they are "stars"). Scorecards for these people will be marked with a gold star in the scrambler signature area, as a reminder to scramblers to make extra-sure that the scrambles are correct. For example:
 
 ```
   "stars": {
-    "2022KEAL01":["333"],
-    "2022KEAD01":["555"],
+    "Ada Ke":["333"],
+    "Alan Ke":["555"],
     "Ash Black":["333","777"],
     "Braden Dillenberg":["FTO"]
   }

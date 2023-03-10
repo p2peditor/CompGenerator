@@ -38,7 +38,7 @@ The WCA currently requires that record-setting solves and averages be checked to
  
 To remind scramblers of the importance of a) not mis-scrambling, and b) double-checking scrambles for the cases where it matters most, you can have CompGenerator mark scorecards for your "star" competitors by putting literal gold stars in the scrambler signature spot on the scorecard. 
 
-To do this, list your star competitors in your [config file](config_file_reference.md), and educate your scramblers that when they see yellow stars on the card, they must absolutely guarantee that the scramble is correct before signing on the star and sending the puzzle back out. The [samples/](../samples/) directory contains a "star_alert.pdf" file you can print out and post at your scrambling stations.
+To do this, list your star competitors in your [config file](config_file_reference.md), and educate your scramblers that when they see yellow stars on the card, they must absolutely guarantee that the scramble is correct before signing on the star and sending the puzzle back out. The [samples/](../samples/) directory contains a [Gold_Star_Scrambler_Instructions.pdf](../samples/Gold_Star_Scrambler_Instructions.pdf) file you can print out and post at your scrambling stations.
 
 Scramblers should never misscramble or let an incorrect scramble go out to a competitor. But, people get sloppy or careless or rushed in the heat of a busy round. The stars are there to serve as an immediate, in-the-moment reminder to pay extra attention for the cases where it matters the most.
 
