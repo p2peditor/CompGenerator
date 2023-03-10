@@ -61,6 +61,8 @@ def load_config(config_file):
 # helper for load_data() that sanity-checks an assignment string to make sure that
 # the assignment doesn't have multiple roles for the same group (e.g. C1;R1)
 def validate_assignment(who, event, assn):
+    if not assn: # empty assignment strings pass automatically.
+        return
     used = []
     for chunk in assn.split(";"):
         group = chunk[-1] # last character should be the group number
@@ -264,7 +266,7 @@ def draw_one_scorecard(c, comp, who, wcaid, number, event, round, group, stage, 
     linePositions = [1,2.5,11,12.5] # grid positions for the vertical lines
 
     # figure out if this competitor needs a star on their scorecards.
-    isStar = ("stars" in config) and ((who in config["stars"] and event in config["stars"][who]) or (wcaid in config["stars"] and event in config["stars"][wcaid]))
+    isStar = ("stars" in config) and (who in config["stars"]) and (event in config["stars"][who])
 
     # The idea here is that each row consists of a call to drawScorecardRow
     # follows by a vertical translate to account for that row's height. Each
@@ -360,6 +362,47 @@ def generate_scorecards(config, assignments):
                 c.translate(quadrants[q][0], quadrants[q][1])
                 # draw the card:
                 draw_one_scorecard(c, config["competition"], who, wcaid, number, event, 1, group, stage, solves, attempts, cutoff, limit)
+                c.restoreState()
+                if q == 3: # that was the last card on the page
+                    if config["cut_guides"] is True:
+                        c.line(w2,0,w2,h)
+                        c.line(0,h2,w,h2)
+                    c.showPage()
+                card_count += 1
+        if (card_count % 4) != 0: # if we didn't just finish a page
+            if config["cut_guides"] is True: # very not-DRY, I know...
+                c.line(w2,0,w2,h)
+                c.line(0,h2,w,h2)
+            c.showPage()
+    # if there are any star competitors, pre-emptively generate round 2 and Finals scorecards for them on the assumption
+    # that these people will make it to finals. We're also going to take the easy route here and not correlate this
+    # against the actual subsequent rounds each event has. The config file presently doesn't store that information
+    # reliably (it might be in scorecard_blanks, but somebody might not have asked for any blanks), and would have to be
+    # redone anyway when we integrate with WCIF. So for now, we're just going to barf out star scorecards for round "2" and
+    # "Final" of each event that a star competitor is doing.
+    # This is so horrible and non-DRY with the above main scorecard logic. Oy... Refactor and fix when we do WCIF integration.
+    if "stars" in config and len(config["stars"]) > 0: 
+        card_count = 0
+        for who in config["stars"]:
+            for event in config["stars"][who]: # The inside of this loop should really just be two calls to draw_one_scorecard, but we need all the page layout logic. Need a more global mechanism for that.
+                solves, attempts, cutoff, limit = config["events"][event][0:4] # the slice at the end skips a stage assignment, if present
+                wcaid = assignments[who]["WCA ID"]
+                number = assignments[who]["Number"]
+                c.saveState()
+                q = card_count % 4
+                c.translate(quadrants[q][0], quadrants[q][1])
+                draw_one_scorecard(c, config["competition"], who, wcaid, number, event, 2, "__", "", solves, attempts, cutoff, limit)
+                c.restoreState()
+                if q == 3: # that was the last card on the page
+                    if config["cut_guides"] is True:
+                        c.line(w2,0,w2,h)
+                        c.line(0,h2,w,h2)
+                    c.showPage()
+                card_count += 1
+                c.saveState()
+                q = card_count % 4
+                c.translate(quadrants[q][0], quadrants[q][1])
+                draw_one_scorecard(c, config["competition"], who, wcaid, number, event, "Final", "__", "", solves, attempts, cutoff, limit)
                 c.restoreState()
                 if q == 3: # that was the last card on the page
                     if config["cut_guides"] is True:

@@ -11,8 +11,8 @@
   "roles": "CJRS",
   "assignments": "sample_comp_assignments.csv",
   "stars": {
-    "2022KEAL01":["333"],
-    "2022KEAD01":["555"],
+    "Ada Ke":["333"],
+    "Alan Ke":["555"],
     "Ash Black":["333","777"],
     "Braden Dillenberg":["FTO"]
   },
